@@ -4,8 +4,14 @@
 Reservation Restaurant is a simple Laravel 10 project that allows users to make reservations at a restaurant. The project is built using MySQL.
 
 
-
 ## Run Locally
+
+Requirements
+```bash
+  PHP 8.1 or higher
+  Composer
+  MySQL or MariaDB
+```
 
 Clone the project
 
