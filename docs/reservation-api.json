@@ -1,0 +1,400 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+      "title":"Reservation restaurant API",
+      "version":"1.0.0"
+    },
+    "servers": [
+        {
+            "url":"http://127.0.0.1:8000"
+        }
+    ],
+    "paths": {
+        "/api/reservation" : {
+            "post" : {
+                "description": "Reservation to reserve a table",
+                "requestBody" : {
+                    "content": {
+                        "application/json" : {
+                            "examples": {
+                                "Table A1" : {
+                                    "description": "Booking for table A1",
+                                    "value" : {
+                                        "table_id"  : 1,
+                                        "name"      : "Ahmad Haqi",
+                                        "email"     : "haqiti16@gmail.com",
+                                        "phone_number" : "628155xxxxxxx",
+                                        "guest_count" : 2,
+                                        "start_time" : "2024-01-26T09:00:00",
+                                        "end_time" : "2024-01-26T09:00:00"
+                                    }
+                                }
+                            },
+                            "schema" : {
+                                "type": "object",
+                                "required": [
+                                    "table_id", "name", "email", "phone_number", "guest_count", "start_time", "end_time"
+                                ],
+                                "properties": {
+                                    "table_id" : {
+                                        "type": "int32"
+                                    },
+                                    "name" : {
+                                        "type": "string"
+                                    },
+                                    "email" : {
+                                        "type": "string"
+                                    },
+                                    "phone_number" : {
+                                        "type": "string"
+                                    },
+                                    "guest_count" : {
+                                        "type": "int32"
+                                    },
+                                    "start_time" : {
+                                        "type": "string"
+                                    },
+                                    "end_time" : {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "404" : {
+                        "description": "Table not available",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "tablenotfound" : {
+                                        "description": "Table not available",
+                                        "value" : {
+                                            "errors" : {
+                                                "message" : [
+                                                    "Sorry, table is not available!"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "validationerror" : {
+                                        "description": "Validation error",
+                                        "value" : {
+                                            "errors" : {
+                                                "table_id" : [
+                                                    "table_id must not be blank",
+                                                    "table_id must be an integer"
+                                                ],
+                                                "start_time" : [
+                                                    "start_time must not be blank"
+                                                ],
+                                                "end_time" : [
+                                                    "end_time must not be blank"
+                                                ],
+                                                "guest_count" : [
+                                                    "guest_count must not be blank",
+                                                    "table_id must be an integer"
+                                                ],
+                                                "name" : [
+                                                    "name must not be blank"
+                                                ],
+                                                "email" : [
+                                                    "email must not be blank"
+                                                ],
+                                                "phone_number" : [
+                                                    "phone_number must not be blank"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "201" : {
+                        "description": "Success Reservation",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "success" : {
+                                        "description": "Success register user",
+                                        "value" : {
+                                            "data" : {
+                                                "id" : 1,
+                                                "table_id" : 2,
+                                                "customer_id" : 1,
+                                                "start_time" : "2024-01-27T09:00:00",
+                                                "end_time" : "2024-01-27T10:00:00",
+                                                "guest_count" : 2,
+                                                "status" : "active"
+                                            }
+                                        }
+                                    }
+                                },
+                                "schema" :{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" :{
+                                            "type": "object",
+                                            "properties": {
+                                                "id" : {
+                                                    "type": "int32"
+                                                },
+                                                "table_id" : {
+                                                    "type": "int32"
+                                                },
+                                                "customer_id" : {
+                                                    "type": "int32"
+                                                },
+                                                "start_time" : {
+                                                    "type": "string"
+                                                },
+                                                "end_time" : {
+                                                    "type": "string"
+                                                },
+                                                "guest_count" : {
+                                                    "type": "int32"
+                                                },
+                                                "status" : {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tables/availability" : {
+            "post" : {
+                "description": "Check availability table",
+                "requestBody" : {
+                    "content": {
+                        "application/json" : {
+                            "examples": {
+                                "Request" : {
+                                    "description": "Check availability table",
+                                    "value" : {
+                                        "start_time" : "2024-01-26T09:00:00",
+                                        "end_time" : "2024-01-26T09:00:00",
+                                        "guest_count" : 2
+                                    }
+                                }
+                            },
+                            "schema" : {
+                                "type": "object",
+                                "required": [
+                                    "start_time", "end_time", "guest_count"
+                                ],
+                                "properties": {
+                                    "start_time" : {
+                                        "type": "string"
+                                    },
+                                    "end_time" : {
+                                        "type": "string"
+                                    },
+                                    "guest_count" : {
+                                        "type": "int32"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200" : {
+                        "description": "Success in getting a list of available tables",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "success" : {
+                                        "description": "Success",
+                                        "value" : {
+                                            "available" : true,
+                                            "tables" : [
+                                                {
+                                                    "id": 2,
+                                                    "name": "Meja A2",
+                                                    "capacity": 4,
+                                                    "created_at": "2024-01-24T17:04:17.000000Z",
+                                                    "updated_at": "2024-01-24T17:04:17.000000Z"
+                                                },
+                                                {
+                                                    "id": 3,
+                                                    "name": "Meja A3",
+                                                    "capacity": 4,
+                                                    "created_at": "2024-01-24T17:04:17.000000Z",
+                                                    "updated_at": "2024-01-24T17:04:17.000000Z"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                "schema" :{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" :{
+                                            "type": "object"
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/tables" : {
+            "get" : {
+                "description": "Get all the tables",
+                "responses": {
+                    "200" : {
+                        "description": "Success in getting a list all tables",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "success" : {
+                                        "description": "Success",
+                                        "value" : {
+                                            "data" : [
+                                                {
+                                                    "id": 2,
+                                                    "name": "Meja A2",
+                                                    "capacity": 4,
+                                                    "created_at": "2024-01-24T17:04:17.000000Z",
+                                                    "updated_at": "2024-01-24T17:04:17.000000Z"
+                                                },
+                                                {
+                                                    "id": 3,
+                                                    "name": "Meja A3",
+                                                    "capacity": 4,
+                                                    "created_at": "2024-01-24T17:04:17.000000Z",
+                                                    "updated_at": "2024-01-24T17:04:17.000000Z"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                "schema" :{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" :{
+                                            "type": "object"
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post" : {
+                "description" : "Add table",
+                "requestBody" : {
+                    "content": {
+                        "application/json" : {
+                            "examples": {
+                                "Request" : {
+                                    "description": "Add table",
+                                    "value" : {
+                                        "name" : "Meja C1",
+                                        "capacity" : 4
+                                    }
+                                }
+                            },
+                            "schema" : {
+                                "type": "object",
+                                "required": [
+                                    "name", "capacity"
+                                ],
+                                "properties": {
+                                    "name" : {
+                                        "type": "string"
+                                    },
+                                    "capacity" : {
+                                        "type": "int32"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201" : {
+                        "description": "Success add tables",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "success" : {
+                                        "description": "Success",
+                                        "value" : {
+                                            "data" : [
+                                                {
+                                                    "id": 1,
+                                                    "name": "Meja C1",
+                                                    "capacity": "4"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                "schema" :{
+                                    "type": "object",
+                                    "properties": {
+                                        "data" :{
+                                            "type": "object"
+                                        },
+                                        "errors" : {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description": "errors",
+                        "content": {
+                            "application/json" : {
+                                "examples": {
+                                    "validationerror" : {
+                                        "description": "errors",
+                                        "value" : {
+                                            "errors" : {
+                                                "name" : [
+                                                    "the table name already exists."
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+  }
